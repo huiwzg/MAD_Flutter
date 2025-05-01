@@ -75,6 +75,21 @@ class DatabaseHelper {
     }
   }
 
+  Future<void> deleteSet(String id) async {
+    final db = await database;
+    await db.delete('sets', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<void> updateSet(String id, String name, String data) async {
+    final db = await database;
+    await db.update(
+      'sets',
+      {'name': name, 'data': data},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
   //   Future<String> getSetName(String id) async {
   //   final db = await database;
   //   final result = await db.query('sets', where: 'id = ?', whereArgs: [id]);

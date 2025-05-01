@@ -3,14 +3,14 @@ import 'package:mad_flutter/database_helper.dart';
 import 'package:mad_flutter/study.dart';
 
 
-class LibraryPage extends StatefulWidget {
-  const LibraryPage({super.key});
+class LibraryPage extends StatefulWidget {  
+  const LibraryPage({Key? key}) : super(key: key);
 
   @override
-  State<LibraryPage> createState() => _LibraryPageState();
+  State<LibraryPage> createState() => LibraryPageState();
 }
 
-class _LibraryPageState extends State<LibraryPage> {
+class LibraryPageState extends State<LibraryPage> {
 
   List<Map<String, String>> studySetTitles = [];
 
@@ -46,6 +46,8 @@ class _LibraryPageState extends State<LibraryPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Failed to load study set')),
       );
+    }).then((_){
+      getStudySetSummary();
     });
   }
 

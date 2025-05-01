@@ -41,6 +41,7 @@ class FlashcardWidget extends StatelessWidget {
   final bool isFlipped;
   final VoidCallback onFlip;
   final VoidCallback onNext;
+  final VoidCallback onPrev;
 
   const FlashcardWidget({
     required this.controller1,
@@ -48,6 +49,7 @@ class FlashcardWidget extends StatelessWidget {
     required this.isFlipped,
     required this.onFlip,
     required this.onNext,
+    required this.onPrev,
   });
 
   @override
@@ -78,10 +80,28 @@ class FlashcardWidget extends StatelessWidget {
             ),
           ),
         ),
-        ElevatedButton(
-          onPressed: onNext,
-          child: const Text('Next'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: onPrev,
+              child: const Text('Previous'),
+            ),
+            SizedBox(width: 20),
+            ElevatedButton(
+              onPressed: onNext,
+              child: const Text('Next'),
+            ),
+          ],
         ),
+        // ElevatedButton(
+        //   onPressed: onNext,
+        //   child: const Text('Next'),
+        // ),
+        // ElevatedButton(
+        //   onPressed: onPrev,
+        //   child: const Text('Previous'),
+        // ),
       ]
     );
   }

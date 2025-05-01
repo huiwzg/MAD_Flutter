@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mad_flutter/database_helper.dart';
 import 'package:mad_flutter/flashcard.dart';
 
 class CreatePage extends StatefulWidget {
-  const CreatePage({super.key});
+  final String? id;
+
+  CreatePage({super.key, this.id});
 
   @override
   State<CreatePage> createState() => _CreatePageState();
@@ -17,6 +21,23 @@ class _CreatePageState extends State<CreatePage> {
 
   List<Widget> flashcardWidgets = [];
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    if (widget.id != null) {
+      DatabaseHelper().getSet(widget.id!).then((value) {
+        titleController.text = value['name'] as String;
+        List<Map<String, String>> flashcardFields = (json.decode(value['data']!) as List<dynamic>)
+          .map<Map<String, String>>((item) => Map<String, String>.from(item))
+          .toList();
+        for (var field in flashcardFields) {
+          addFlashcard(question: field['question'], answer: field['answer']);
+        }
+      });
+    }
+    super.initState();
+  }
+
   void _saveStudySet() async {
     List<Map<String, String>> flashcardFields = [];
 
@@ -27,22 +48,34 @@ class _CreatePageState extends State<CreatePage> {
       });
     }
 
-    DatabaseHelper().saveSet(titleController.text, flashcardFields).then((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Study set saved!')),
-      );
-    }).catchError((error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to save study set')),
-      );
-    });
+    if (widget.id == null) {
+      DatabaseHelper().saveSet(titleController.text, flashcardFields).then((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Study set saved!')),
+        );
+      }).catchError((error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to save study set')),
+        );
+      });
+    } else {
+      DatabaseHelper().updateSet(widget.id!, titleController.text, json.encode(flashcardFields)).then((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Study set updated!')),
+        );
+      }).catchError((error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to update study set')),
+        );
+      });
+    }
 
     Navigator.pop(context); // Close the Create page after saving
   }
 
-  void addFlashcard() {
-    final questionController = TextEditingController();
-    final answerController = TextEditingController();
+  void addFlashcard({String? question = "", String? answer = ""}) {
+    final questionController = TextEditingController(text: question ?? "");
+    final answerController = TextEditingController(text: answer ?? "");
 
     questionControllers.add(questionController);
     answerControllers.add(answerController);

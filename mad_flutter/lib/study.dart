@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mad_flutter/create.dart';
 import 'package:mad_flutter/database_helper.dart';
 import 'package:mad_flutter/flashcard.dart';
 
@@ -17,13 +18,19 @@ class _StudyPageState extends State<StudyPage> {
   int currentIndex = 0;
   bool isFlipped = false;
 
-  late final String? title;
-  late final List<Map<String, String>>? flashcardFields;
+  late String? title;
+  late List<Map<String, String>>? flashcardFields;
 
   bool isLoading = true;
 
   @override
   void initState() {
+    loadSet();
+    super.initState();
+  }
+
+  void loadSet() {
+    isLoading = true;
     DatabaseHelper().getSet(widget.id).then((value) {
       setState(() {
         title = value['name'] as String;
@@ -31,11 +38,8 @@ class _StudyPageState extends State<StudyPage> {
           .map<Map<String, String>>((item) => Map<String, String>.from(item))
           .toList();
         isLoading = false;
-        print("raw json: ${value['data']}");
-        print("fcF.l: ${flashcardFields!.length}");
       });
     });
-    super.initState();
   }
 
   void flipCard() {
@@ -45,10 +49,15 @@ class _StudyPageState extends State<StudyPage> {
   }
 
   void nextCard() { // Prevent interaction while loading
-
     setState(() {
-      print("Current index: ${currentIndex.toString()}. Next: ${(currentIndex + 1) % flashcardFields!.length}. fcF.l: ${flashcardFields!.length}");
       currentIndex = (currentIndex + 1) % flashcardFields!.length; // Loop back to the first card
+      isFlipped = false; // Reset the flip state when moving to the next card
+    });
+  }
+
+  void prevCard() { // Prevent interaction while loading
+    setState(() {
+      currentIndex = (currentIndex - 1) % flashcardFields!.length; // Loop back to the first card
       isFlipped = false; // Reset the flip state when moving to the next card
     });
   }
@@ -69,13 +78,49 @@ class _StudyPageState extends State<StudyPage> {
         );
       }
       return Scaffold(
-        appBar: AppBar(title: Text(title!)),
+        appBar: AppBar(
+          title: Text(title!),
+          actions: [
+            PopupMenuButton(itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 'edit',
+                child: Text('Edit'),
+              ),
+              const PopupMenuItem(
+                value: 'delete',
+                child: Text('Delete'),
+              ),
+              const PopupMenuItem(
+                value: 'settings',
+                child: Text('Settings'),
+              ),
+            ], onSelected: (value) {
+              if (value == 'edit') {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CreatePage(id: widget.id))).then((_) {
+                  // Reload the study set after editing
+                  loadSet();
+                  print("Reloaded study set after editing.");
+                });
+
+              } else if (value == 'delete') {
+                // Handle delete action
+                DatabaseHelper().deleteSet(widget.id).then((_) {
+                  Navigator.pop(context); // Close the Study page after deletion
+                });
+              } else if (value == 'settings') {
+                // Handle settings action
+                
+              }
+            })
+          ],
+        ),
         body: Center(
           child: FlashcardWidget(
             controller1: TextEditingController(text: flashcardFields![currentIndex]['question']),
             controller2: TextEditingController(text: flashcardFields![currentIndex]['answer']),
             isFlipped: isFlipped,
             onFlip: flipCard,
+            onPrev: prevCard,
             onNext: nextCard,
           ),
         ),

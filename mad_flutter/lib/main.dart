@@ -29,11 +29,20 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-  final List<Widget> _pages = [
-    const HomePage(),
-    const CreatePage(),
-    const LibraryPage(),
-  ];
+
+  final GlobalKey<LibraryPageState> childKey = GlobalKey();
+
+  List<Widget> _pages = [];
+
+  @override
+  void initState() {
+    _pages = [
+      HomePage(),
+      CreatePage(id: null),
+      LibraryPage(key: childKey),
+    ];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +60,15 @@ class _MainScreenState extends State<MainScreen> {
             // Open the Create page in a new screen
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const CreatePage()),
-            );
+              MaterialPageRoute(builder: (context) => CreatePage(id: null)),
+            ).then((_) {
+              // Refresh the Library page after returning from Create page
+              if (childKey.currentState != null) {
+                setState(() {
+                  childKey.currentState!.getStudySetSummary();
+                });
+              }
+            });
           } else {
             setState(() {
               _currentIndex = index;
