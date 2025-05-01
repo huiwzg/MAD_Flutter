@@ -43,10 +43,15 @@ class DatabaseHelper {
   //   return await db.insert('sets', {'name': name});
   // }
 
-  // Future<List<Map<String, dynamic>>> getItems() async {
+  // Future<List<Map<String, dynamic>>> getAllSets() async {
   //   final db = await database;
   //   return await db.query('sets');
   // }
+
+  Future<List<Map<String, dynamic>>> getSummary() async {
+    final db = await database;
+    return await db.query('sets', columns: ['id', 'name']);
+  }
 
   Future<void> saveSet(String title, List<Map<String, String>> flashcards) async {
     final db = await database;
@@ -57,11 +62,23 @@ class DatabaseHelper {
     });
   }
 
-  Future<List<Map<String, String>>> getSet(String title) async {
+  Future<Map<String, String>> getSet(String id) async {
     final db = await database;
-    final result = await db.query('sets', where: 'name = ?', whereArgs: [title]);
-    String jsonString = result.first['data'] as String;
-    return jsonDecode(jsonString) as List<Map<String, String>>;
+    final result = await db.query('sets', where: 'id = ?', whereArgs: [id]);
+
+    if (result.isNotEmpty) {
+      print("DATABASE: raw json: ${result.first['data']}");
+      var combined = {"name": result.first['name'].toString(), "data": result.first['data'].toString()};
+      return combined;
+    } else {
+      throw Exception('No data found for the given ID');
+    }
   }
+
+  //   Future<String> getSetName(String id) async {
+  //   final db = await database;
+  //   final result = await db.query('sets', where: 'id = ?', whereArgs: [id]);
+  //   return result.first['name'] as String;
+  // }
 }
 

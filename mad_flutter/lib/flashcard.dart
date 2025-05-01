@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class FlashcardWidget extends StatelessWidget {
+class FlashcardEditWidget extends StatelessWidget {
   final TextEditingController controller1;
   final TextEditingController controller2;
 
-  const FlashcardWidget({
+  const FlashcardEditWidget({
     required this.controller1,
     required this.controller2,
   });
@@ -31,6 +31,58 @@ class FlashcardWidget extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class FlashcardWidget extends StatelessWidget {
+  final TextEditingController controller1;
+  final TextEditingController controller2;
+  final bool isFlipped;
+  final VoidCallback onFlip;
+  final VoidCallback onNext;
+
+  const FlashcardWidget({
+    required this.controller1,
+    required this.controller2,
+    required this.isFlipped,
+    required this.onFlip,
+    required this.onNext,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column (
+      children: [
+        GestureDetector(
+          onTap: onFlip,
+          child: Container(
+            width: 300,
+            height: 200,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 4.0,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Center(
+              child: Text(
+                isFlipped ? controller2.text : controller1.text,
+                style: TextStyle(fontSize: 24),
+              ),
+            ),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: onNext,
+          child: const Text('Next'),
+        ),
+      ]
     );
   }
 }
