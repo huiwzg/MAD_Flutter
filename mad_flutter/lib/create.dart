@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mad_flutter/database_helper.dart';
 import 'package:mad_flutter/flashcard.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CreatePage extends StatefulWidget {
   final String? id;
@@ -21,9 +22,10 @@ class _CreatePageState extends State<CreatePage> {
 
   List<Widget> flashcardWidgets = [];
 
+  bool _validateTitle = false;
+
   @override
   void initState() {
-    // TODO: implement initState
     if (widget.id != null) {
       DatabaseHelper().getSet(widget.id!).then((value) {
         titleController.text = value['name'] as String;
@@ -38,6 +40,93 @@ class _CreatePageState extends State<CreatePage> {
     super.initState();
   }
 
+  Future<void> _showBlankWarning() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Your set has one or more blank fields!'),
+          content: const SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+            Text('Would you like to go back, or save the set with blanks?'),
+            ],
+          ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Go Back'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Save'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _saveStudySet();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _checkForBlanks() async {
+    bool hasBlanks = false;
+    
+    if (titleController.text.isEmpty) {
+      setState(() {
+        _validateTitle = true;
+      });
+
+      Fluttertoast.showToast(
+        msg: "Title cannot be empty!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.white,
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
+      return;
+    }
+
+    setState(() {
+      _validateTitle = false;
+    });
+
+    if (questionControllers.isEmpty) {
+      Fluttertoast.showToast(
+        msg: "Set must contain at least one flashcard!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.white,
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
+      return;
+    }
+
+    for (int i = 0; i < questionControllers.length; i++) {
+      if (questionControllers[i].text.isEmpty || answerControllers[i].text.isEmpty) {
+        hasBlanks = true;
+      }
+    }
+
+    if (hasBlanks) {
+      // Show a dialog if there are blanks
+      await _showBlankWarning();
+      return;
+    } else {
+      // If no blanks, proceed to save the study set
+      _saveStudySet();
+    }
+  } 
+
   void _saveStudySet() async {
     List<Map<String, String>> flashcardFields = [];
 
@@ -48,7 +137,7 @@ class _CreatePageState extends State<CreatePage> {
       });
     }
 
-    if (widget.id == null) {
+    if (widget.id == null) { // null widget id implies new study set
       DatabaseHelper().saveSet(titleController.text, flashcardFields).then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Study set saved!')),
@@ -58,7 +147,7 @@ class _CreatePageState extends State<CreatePage> {
           const SnackBar(content: Text('Failed to save study set')),
         );
       });
-    } else {
+    } else { // if a widget id was provided, update the existing study set
       DatabaseHelper().updateSet(widget.id!, titleController.text, json.encode(flashcardFields)).then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Study set updated!')),
@@ -99,7 +188,7 @@ class _CreatePageState extends State<CreatePage> {
           IconButton(
             icon: const Icon(Icons.check_sharp),
             tooltip: 'Save',
-            onPressed: _saveStudySet,
+            onPressed: _checkForBlanks,
           ),
         ]),
       // body: const Center(child: Text('TODO: Create Page')),
@@ -111,6 +200,7 @@ class _CreatePageState extends State<CreatePage> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Study set #3',
+                errorText: _validateTitle ? "Please enter a title" : null,
               ),
             ),
             Align(
