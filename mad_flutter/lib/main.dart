@@ -56,6 +56,7 @@ class _MainScreenState extends State<MainScreen> {
         ],
         currentIndex: _currentIndex,
         onTap: (index) {
+          print("Tapped index: $index");
           if (index == 1) {
             // Open the Create page in a new screen
             Navigator.push(
