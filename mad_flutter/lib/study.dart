@@ -5,6 +5,8 @@ import 'package:mad_flutter/create.dart';
 import 'package:mad_flutter/database_helper.dart';
 import 'package:mad_flutter/flashcard.dart';
 
+import 'package:logger/logger.dart';
+
 class StudyPage extends StatefulWidget {
   final String id;
 
@@ -30,6 +32,7 @@ class _StudyPageState extends State<StudyPage> {
   }
 
   void loadSet() {
+    Logger().d('Loading study set with ID: ${widget.id}');
     isLoading = true;
     DatabaseHelper().getSet(widget.id).then((value) {
       setState(() {
@@ -46,6 +49,7 @@ class _StudyPageState extends State<StudyPage> {
     setState(() {
       isFlipped = !isFlipped;
     });
+    Logger().d('Flipped card to ${isFlipped ? 'answer' : 'question'}');
   }
 
   void nextCard() { // Prevent interaction while loading
@@ -53,6 +57,7 @@ class _StudyPageState extends State<StudyPage> {
       currentIndex = (currentIndex + 1) % flashcardFields!.length; // Loop back to the first card
       isFlipped = false; // Reset the flip state when moving to the next card
     });
+    Logger().d('Moved to next card: $currentIndex');
   }
 
   void prevCard() { // Prevent interaction while loading
@@ -60,6 +65,7 @@ class _StudyPageState extends State<StudyPage> {
       currentIndex = (currentIndex - 1) % flashcardFields!.length; // Loop back to the first card
       isFlipped = false; // Reset the flip state when moving to the next card
     });
+    Logger().d('Moved to previous card: $currentIndex');
   }
 
   @override

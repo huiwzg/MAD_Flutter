@@ -94,14 +94,6 @@ class FlashcardWidget extends StatelessWidget {
             ),
           ],
         ),
-        // ElevatedButton(
-        //   onPressed: onNext,
-        //   child: const Text('Next'),
-        // ),
-        // ElevatedButton(
-        //   onPressed: onPrev,
-        //   child: const Text('Previous'),
-        // ),
       ]
     );
   }

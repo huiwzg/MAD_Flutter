@@ -5,6 +5,8 @@ import 'package:mad_flutter/database_helper.dart';
 import 'package:mad_flutter/flashcard.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import 'package:logger/logger.dart';
+
 class CreatePage extends StatefulWidget {
   final String? id;
 
@@ -66,6 +68,7 @@ class _CreatePageState extends State<CreatePage> {
               onPressed: () {
                 Navigator.of(context).pop();
                 _saveStudySet();
+                Logger().w('Saving set with one or more blank fields!');
               },
             ),
           ],
@@ -142,20 +145,24 @@ class _CreatePageState extends State<CreatePage> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Study set saved!')),
         );
+        Logger().i('Study set saved!');
       }).catchError((error) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to save study set')),
         );
+        Logger().e('Failed to save study set: $error');
       });
     } else { // if a widget id was provided, update the existing study set
       DatabaseHelper().updateSet(widget.id!, titleController.text, json.encode(flashcardFields)).then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Study set updated!')),
         );
+        Logger().i('Study set updated!');
       }).catchError((error) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to update study set')),
         );
+        Logger().e('Failed to update study set: $error');
       });
     }
 

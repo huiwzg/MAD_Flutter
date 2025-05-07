@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:logger/logger.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -29,6 +30,7 @@ class DatabaseHelper {
   }
 
   Future _onCreate(Database db, int version) async {
+    Logger().i('DATABASE: Creating database...');
     await db.execute('''
       CREATE TABLE sets (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -89,11 +91,5 @@ class DatabaseHelper {
       whereArgs: [id],
     );
   }
-
-  //   Future<String> getSetName(String id) async {
-  //   final db = await database;
-  //   final result = await db.query('sets', where: 'id = ?', whereArgs: [id]);
-  //   return result.first['name'] as String;
-  // }
 }
 
