@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SettingsMenu {
@@ -18,8 +19,16 @@ class SettingsMenu {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               SizedBox(height: 10),
               
-              Text("Theme"),
-              
+              Text("Signed in as ${FirebaseAuth.instance.currentUser?.email}"),
+
+              ElevatedButton(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pop(context);
+                },
+                child: Text("Sign out"),
+              ),
+
               // Add settings here
               Spacer(),
               Align(
