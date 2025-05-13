@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "439617591323",
+    "project_id": "madflutter-27544",
+    "storage_bucket": "madflutter-27544.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439617591323:android:2127d6373c414070d380be",
+        "android_client_info": {
+          "package_name": "com.example.mad_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg3MT2W9rj7PjXP9zNNbhGk2RwtWSHhYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
