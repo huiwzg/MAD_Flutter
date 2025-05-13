@@ -26,12 +26,7 @@ class LibraryPageState extends State<LibraryPage> {
         studySetTitles = value.map((e) => {'id' : e['id'].toString(), 'name' : e['name'].toString()}).toList();
       });
     });
-    // .catchError((error) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(content: Text('Failed to load study sets')),
-    //   );
-    //   print(error);
-    // });
+    
   }
 
   void launchStudySet(String id) {
