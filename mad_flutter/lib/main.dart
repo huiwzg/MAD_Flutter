@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mad_flutter/auth_gate.dart';
 import 'package:mad_flutter/create.dart';
 import 'package:mad_flutter/library.dart';
 import 'package:mad_flutter/home.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: MainScreen(),
+      home: AuthGate(),
     );
   }
 }
@@ -49,6 +50,7 @@ class _MainScreenState extends State<MainScreen> {
       CreatePage(id: null),
       LibraryPage(key: childKey),
     ];
+
     super.initState();
   }
 
