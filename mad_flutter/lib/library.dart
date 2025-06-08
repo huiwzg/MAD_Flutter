@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mad_flutter/database_helper.dart';
 import 'package:mad_flutter/study.dart';
+import 'package:mad_flutter/settings.dart';
 
 
 class LibraryPage extends StatefulWidget {  
@@ -46,6 +47,8 @@ class LibraryPageState extends State<LibraryPage> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,9 +56,9 @@ class LibraryPageState extends State<LibraryPage> {
         title: const Text('My Library'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh_outlined),
-            tooltip: 'Refresh',
-            onPressed: getStudySetSummary,
+            icon: const Icon(Icons.settings),
+            tooltip: 'Settings',
+            onPressed: () => SettingsMenu.show(context),
           ),
         ]
       ),

@@ -36,16 +36,16 @@ class FlashcardEditWidget extends StatelessWidget {
 }
 
 class FlashcardWidget extends StatelessWidget {
-  final TextEditingController controller1;
-  final TextEditingController controller2;
+  final String termText;
+  final String defText;
   final bool isFlipped;
   final VoidCallback onFlip;
   final VoidCallback onNext;
   final VoidCallback onPrev;
 
   const FlashcardWidget({
-    required this.controller1,
-    required this.controller2,
+    required this.termText,
+    required this.defText,
     required this.isFlipped,
     required this.onFlip,
     required this.onNext,
@@ -74,7 +74,7 @@ class FlashcardWidget extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                isFlipped ? controller2.text : controller1.text,
+                isFlipped ? defText : termText,
                 style: TextStyle(fontSize: 24),
               ),
             ),
