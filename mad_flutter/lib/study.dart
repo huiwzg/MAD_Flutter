@@ -122,8 +122,8 @@ class _StudyPageState extends State<StudyPage> {
         ),
         body: Center(
           child: FlashcardWidget(
-            controller1: TextEditingController(text: flashcardFields![currentIndex]['question']),
-            controller2: TextEditingController(text: flashcardFields![currentIndex]['answer']),
+            termText: flashcardFields![currentIndex]['question']!,
+            defText: flashcardFields![currentIndex]['answer']!,
             isFlipped: isFlipped,
             onFlip: flipCard,
             onPrev: prevCard,
