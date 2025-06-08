@@ -4,6 +4,8 @@ import 'package:mad_flutter/create.dart';
 import 'package:mad_flutter/library.dart';
 import 'package:mad_flutter/home.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -42,6 +44,13 @@ class _MainScreenState extends State<MainScreen> {
   final GlobalKey<LibraryPageState> childKey = GlobalKey();
 
   List<Widget> _pages = [];
+
+  // void loadPreferences() async {
+  //   SharedPreferences prefsInst = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     prefs["show-term-first"] = prefsInst.getBool('show-term-first') ?? true;
+  //   });
+  // }
 
   @override
   void initState() {
