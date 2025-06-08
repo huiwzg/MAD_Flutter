@@ -4,8 +4,6 @@ import 'package:mad_flutter/create.dart';
 import 'package:mad_flutter/library.dart';
 import 'package:mad_flutter/home.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -25,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flashcards',
       home: AuthGate(),
     );
   }
