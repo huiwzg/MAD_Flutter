@@ -10,6 +10,11 @@ class DatabaseHelper {
 
   static Database? _database;
 
+  Map<int, String> migrationScripts = {
+    1: ';',
+    2: 'ALTER TABLE sets ADD COLUMN lastAccessed TEXT;',
+  };
+
   DatabaseHelper._internal();
 
   Future<Database> get database async {
@@ -24,8 +29,16 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: _onCreate,
+      onUpgrade: (db, oldVersion, newVersion) async {
+        for (int i = oldVersion; i < newVersion; i++) {
+          final migrationScript = migrationScripts[i+1];
+          if (migrationScript != null) {
+            await db.execute(migrationScript);
+          }
+        }
+      }
     );
   }
 
@@ -35,7 +48,8 @@ class DatabaseHelper {
       CREATE TABLE sets (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        data TEXT NOT NULL
+        data TEXT NOT NULL,
+        lastAccessed INTEGER
       )
     ''');
   }
@@ -50,20 +64,23 @@ class DatabaseHelper {
   //   return await db.query('sets');
   // }
 
-  Future<List<Map<String, dynamic>>> getSummary() async {
+  Future<List<Map<String, String>>> getSummary() async {
     final db = await database;
-    return await db.query('sets', columns: ['id', 'name']);
+    final result = await db.query('sets', columns: ['id', 'name']);
+    return result
+      .map((map) => map.map((key, value) => MapEntry(key, value?.toString() ?? '')))
+      .toList();
   }
-
-  Future<List<String>>
 
   Future<void> saveSet(String title, List<Map<String, String>> flashcards) async {
     final db = await database;
     final jsonString = jsonEncode(flashcards); // List<Map<String, String>>
-    await db.insert('sets', {
+    String id = await db.insert('sets', {
       'name': title,
       'data': jsonString,
-    });
+    }).toString();
+
+    touchSet(id);
   }
 
   Future<Map<String, String>> getSet(String id) async {
@@ -73,6 +90,7 @@ class DatabaseHelper {
     if (result.isNotEmpty) {
       print("DATABASE: raw json: ${result.first['data']}");
       var combined = {"name": result.first['name'].toString(), "data": result.first['data'].toString()};
+      touchSet(id);
       return combined;
     } else {
       throw Exception('No data found for the given ID');
@@ -89,6 +107,27 @@ class DatabaseHelper {
     await db.update(
       'sets',
       {'name': name, 'data': data},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    touchSet(id);
+  }
+
+  Future<List<Map<String, String>>> getRecents(int limit) async {
+    final db = await database;
+
+    final result = await db.query('sets', columns: ['id', 'name'], orderBy: 'lastAccessed DESC', limit: limit);
+    // cast <String, Object> maps to <String, String>
+    return result
+      .map((map) => map.map((key, value) => MapEntry(key, value?.toString() ?? '')))
+      .toList();
+  }
+
+  Future<void> touchSet(String id) async {
+    final db = await database;
+    await db.update(
+      'sets',
+      {'lastAccessed': DateTime.now().millisecondsSinceEpoch},
       where: 'id = ?',
       whereArgs: [id],
     );

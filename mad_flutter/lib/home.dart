@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mad_flutter/database_helper.dart';
+import 'package:mad_flutter/library.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -8,7 +10,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> recents = [];
+  List<Map<String, String>> recents = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadRecents();
+  }
+
+  void loadRecents() async {
+    final _tmp_recents = await DatabaseHelper().getRecents(3);
+    setState(() {
+      recents = _tmp_recents;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +35,28 @@ class _HomePageState extends State<HomePage> {
         child:  Column(
           children: [
             Text("Recent sets", style: TextStyle(fontSize: 25)),
-            Row(children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: ListTile(
-                  title: Text("Set title"),
-                  onTap: () {
-                    // launchStudySet(studySetTitles[index]['id']!);
-                  },
-                )
-              )
-            ]),
-          ],
+            Expanded(
+              child: ListView.builder(
+                itemCount: recents.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: ListTile(
+                      title: Text(recents[index]['name']!),
+                      onTap: () {
+                        LibraryPageState.launchStudySet(context, recents[index]['id']!).then((_) {
+                          loadRecents();
+                        });
+                      },
+                    )
+                  );
+                },
+              ),
+            )
+          ]
         ),
       )
     );
