@@ -55,6 +55,8 @@ class DatabaseHelper {
     return await db.query('sets', columns: ['id', 'name']);
   }
 
+  Future<List<String>>
+
   Future<void> saveSet(String title, List<Map<String, String>> flashcards) async {
     final db = await database;
     final jsonString = jsonEncode(flashcards); // List<Map<String, String>>
