@@ -59,6 +59,25 @@ class _StudyPageState extends State<StudyPage> {
     Logger().d('Flipped card to ${isFlipped ? 'answer' : 'question'}');
   }
 
+  void selfEvalCorrect() {
+    setState(() {
+      flashcardFields!.removeRange(currentIndex, currentIndex+1);
+      if (flashcardFields!.isEmpty) {
+        currentIndex = 0;
+      } else {
+        currentIndex = currentIndex % flashcardFields!.length;
+      }
+      isFlipped = false;
+    });
+  }
+
+  void selfEvalIncorrect() {
+    setState(() {
+      // flashcardFields!.removeRange(currentIndex, currentIndex+1);
+      nextCard();
+    });
+  }
+
   void nextCard() { // Prevent interaction while loading
     setState(() {
       currentIndex = (currentIndex + 1) % flashcardFields!.length; // Loop back to the first card
@@ -83,10 +102,17 @@ class _StudyPageState extends State<StudyPage> {
       if (flashcardFields == null || flashcardFields!.isEmpty) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Study Set'),
+            title: Text((title == null) ? "Study set" : title!),
           ),
-          body: const Center(
-            child: Text('No flashcards available.'),
+          body: Center(
+            child: Column(
+              children: [
+                SizedBox(height: 40),
+                const Text('You completed this set!'),
+                SizedBox(height: 10),
+                ElevatedButton(onPressed: loadSet, child: const Text("Reset")),
+              ]
+            ),
           ),
         );
       }
@@ -133,8 +159,8 @@ class _StudyPageState extends State<StudyPage> {
             backText: flashcardFields![currentIndex][showTermOnFront ? 'answer' : 'question']!,
             isFlipped: isFlipped,
             onFlip: flipCard,
-            onPrev: prevCard,
-            onNext: nextCard,
+            onSelfEvalCorrect: selfEvalCorrect,
+            onSelfEvalIncorrect: selfEvalIncorrect,
           ),
         ),
       );
