@@ -1,9 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mad_flutter/database_helper.dart';
 import 'package:mad_flutter/library.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:mad_flutter/mapscreen.dart';
 import 'package:mad_flutter/streakstorage.dart';
 import 'package:mad_flutter/score_manager.dart';
