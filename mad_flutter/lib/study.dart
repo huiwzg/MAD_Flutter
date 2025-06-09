@@ -6,6 +6,7 @@ import 'package:mad_flutter/database_helper.dart';
 import 'package:mad_flutter/flashcard.dart';
 
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StudyPage extends StatefulWidget {
   final String id;
@@ -25,15 +26,21 @@ class _StudyPageState extends State<StudyPage> {
 
   bool isLoading = true;
 
+  bool showTermOnFront = true;
+
   @override
   void initState() {
     loadSet();
     super.initState();
   }
 
-  void loadSet() {
+  void loadSet() async {
     Logger().d('Loading study set with ID: ${widget.id}');
     isLoading = true;
+
+    SharedPreferences prefsInst = await SharedPreferences.getInstance();
+    showTermOnFront = prefsInst.getBool('show-term-on-front') ?? true;
+    
     DatabaseHelper().getSet(widget.id).then((value) {
       setState(() {
         title = value['name'] as String;
@@ -122,8 +129,8 @@ class _StudyPageState extends State<StudyPage> {
         ),
         body: Center(
           child: FlashcardWidget(
-            termText: flashcardFields![currentIndex]['question']!,
-            defText: flashcardFields![currentIndex]['answer']!,
+            frontText: flashcardFields![currentIndex][showTermOnFront ? 'question' : 'answer']!,
+            backText: flashcardFields![currentIndex][showTermOnFront ? 'answer' : 'question']!,
             isFlipped: isFlipped,
             onFlip: flipCard,
             onPrev: prevCard,

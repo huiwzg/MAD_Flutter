@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flashcards',
       home: AuthGate(),
     );
   }
@@ -42,6 +42,13 @@ class _MainScreenState extends State<MainScreen> {
   final GlobalKey<LibraryPageState> childKey = GlobalKey();
 
   List<Widget> _pages = [];
+
+  // void loadPreferences() async {
+  //   SharedPreferences prefsInst = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     prefs["show-term-first"] = prefsInst.getBool('show-term-first') ?? true;
+  //   });
+  // }
 
   @override
   void initState() {
