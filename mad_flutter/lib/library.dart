@@ -60,10 +60,6 @@ class LibraryPageState extends State<LibraryPage> {
       // body: const Center(child: Text('TODO: Library Page')),
       body: Column(
         children: [
-          // ElevatedButton(
-          //   onPressed: getStudySetTitles,
-          //   child: const Text('Get Study Set Titles'),
-          // ),
           Expanded(
             child: ListView.builder(
               itemCount: studySetTitles.length,
