@@ -57,6 +57,7 @@ class DefaultFirebaseOptions {
     appId: '1:439617591323:android:2127d6373c414070d380be',
     messagingSenderId: '439617591323',
     projectId: 'madflutter-27544',
+    databaseURL: 'https://madflutter-27544-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'madflutter-27544.firebasestorage.app',
   );
 
