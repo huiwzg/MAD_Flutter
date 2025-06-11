@@ -36,20 +36,20 @@ class FlashcardEditWidget extends StatelessWidget {
 }
 
 class FlashcardWidget extends StatelessWidget {
-  final TextEditingController controller1;
-  final TextEditingController controller2;
+  final String backText;
+  final String frontText;
   final bool isFlipped;
   final VoidCallback onFlip;
-  final VoidCallback onNext;
-  final VoidCallback onPrev;
+  final VoidCallback onSelfEvalCorrect;
+  final VoidCallback onSelfEvalIncorrect;
 
   const FlashcardWidget({
-    required this.controller1,
-    required this.controller2,
+    required this.backText,
+    required this.frontText,
     required this.isFlipped,
     required this.onFlip,
-    required this.onNext,
-    required this.onPrev,
+    required this.onSelfEvalCorrect,
+    required this.onSelfEvalIncorrect,
   });
 
   @override
@@ -74,24 +74,27 @@ class FlashcardWidget extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                isFlipped ? controller2.text : controller1.text,
+                isFlipped ? backText : frontText,
                 style: TextStyle(fontSize: 24),
               ),
             ),
           ),
         ),
+        SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: onPrev,
-              child: const Text('Previous'),
-            ),
-            SizedBox(width: 20),
-            ElevatedButton(
-              onPressed: onNext,
-              child: const Text('Next'),
-            ),
+            if (isFlipped) ...[
+              ElevatedButton(
+                onPressed: onSelfEvalCorrect,
+                child: const Text('Correct'),
+              ),
+              SizedBox(width: 20),
+              ElevatedButton(
+                onPressed: onSelfEvalIncorrect,
+                child: const Text('Incorrect'),
+              ),
+            ]
           ],
         ),
       ]
