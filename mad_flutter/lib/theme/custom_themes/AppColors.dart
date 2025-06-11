@@ -8,5 +8,8 @@ class AppColors {
   static const Color salmon = Color(0xFFE06C7C);
   static const Color yellow = Color(0xFFE0AA6C);
   static const Color white = Color(0xFFF5F8FD);
+  static const Color grey = Color(0xFF666B6A);
+  static const Color black = Color(0xFF131515);
+  static const Color dark_blue = Color(0xFF374A67);
 
 }

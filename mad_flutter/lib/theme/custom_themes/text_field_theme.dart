@@ -37,8 +37,8 @@ class TTextFormatFielTheme {
 
   static InputDecorationTheme darkInputDecorationTheme = InputDecorationTheme(
       errorMaxLines: 3,
-      prefixIconColor: Colors.grey,
-      suffixIconColor: Colors.grey,
+      prefixIconColor: AppColors.grey,
+      suffixIconColor: AppColors.grey,
 
       labelStyle: const TextStyle().copyWith(fontSize: 14, color: AppColors.white),
       hintStyle: const TextStyle().copyWith(fontSize: 14, color: AppColors.white),
@@ -46,11 +46,11 @@ class TTextFormatFielTheme {
       floatingLabelStyle: const TextStyle().copyWith(color: Colors.black.withOpacity(0.8)),
       border: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: Colors.grey),
+        borderSide: const BorderSide(width: 1, color: AppColors.grey),
       ),
       enabledBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: Colors.grey),
+        borderSide: const BorderSide(width: 1, color: AppColors.grey),
       ),
       focusedBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),

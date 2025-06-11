@@ -13,9 +13,9 @@ class TChipTheme {
   );
 
   static ChipThemeData darkChipTheme = const ChipThemeData(
-    disabledColor: Colors.grey,
+    disabledColor: AppColors.grey,
     labelStyle: TextStyle(color: AppColors.white),
-    selectedColor: AppColors.blue,
+    selectedColor: AppColors.dark_blue,
     padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
     checkmarkColor: AppColors.white,
   );

@@ -55,7 +55,9 @@ class FlashcardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column (
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Column(
       children: [
         GestureDetector(
           onTap: onFlip,
@@ -63,7 +65,7 @@ class FlashcardWidget extends StatelessWidget {
             width: 300,
             height: 200,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: isDark ? Colors.grey[850] : Colors.white, // fondo adaptable
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
@@ -76,12 +78,15 @@ class FlashcardWidget extends StatelessWidget {
             child: Center(
               child: Text(
                 isFlipped ? backText : frontText,
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(
+                  fontSize: 24,
+                  color: isDark ? Colors.white : Colors.black87,
+                ),
               ),
             ),
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         if (isFlipped) ...[
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -90,25 +95,26 @@ class FlashcardWidget extends StatelessWidget {
                 onPressed: onSelfEvalCorrect,
                 child: const Text('Correct'),
               ),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: onSelfEvalIncorrect,
                 child: const Text('Incorrect'),
               ),
-            ]
+            ],
           ),
+          const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).push (
-                MaterialPageRoute (
+              Navigator.of(context).push(
+                MaterialPageRoute(
                   builder: (context) => DetailedWordPage(word: frontText),
                 ),
               );
             },
-            child: Text('More info about \'$frontText\''),
+            child: Text('More info about "$frontText"'),
           ),
         ],
-      ]
+      ],
     );
   }
 }

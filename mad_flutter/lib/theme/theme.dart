@@ -31,8 +31,8 @@ class AppTheme {
   static ThemeData darkTheme = ThemeData (
     useMaterial3: true,
     brightness: Brightness.dark,
-    primaryColor: AppColors.blue,
-    scaffoldBackgroundColor: Colors.black26,
+    primaryColor: AppColors.dark_blue,
+    scaffoldBackgroundColor: AppColors.black,
     textTheme: TTextTheme.darkTextTheme,
     chipTheme: TChipTheme.darkChipTheme,
     appBarTheme: TAppbarTheme.darkAppbarTheme,
