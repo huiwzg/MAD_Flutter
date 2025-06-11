@@ -11,7 +11,22 @@ A simple language learning app based on flashcards, designed to help users expan
 sdk: ^3.7.2
 
 ## Screenshots
-<img style="width: 250px" src="">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/5b33d17e-7875-4455-8361-a9ae5257a281">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/164dd44e-529d-47e2-8eac-bd191d951aa3">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/36514430-f1c6-4ec9-ace1-1cf705e300f1">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/56af7f98-f04f-4195-b886-ce2288286c11">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/88fd59e8-fc89-4d6f-9403-a4b5dbd28610">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/4eb10fd0-e162-4cf0-95bd-6705479cbf4b">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/aac50858-6d4b-4668-9240-002d6e0298e5">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/f6adbe39-e8b3-414a-9085-4f895b65b917">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/c5155316-1d9b-4522-8865-6da09ed06346">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/a5c14926-4251-4ee5-92ef-26b4658a21cc">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/73544788-ed30-4807-80b0-71c3eba6601a">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/2249d57c-766b-4c14-b8ee-eb6af5bee96f">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/50fec4af-81b2-4f27-96cc-50cb916bc2e2">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/da25d50d-8f9d-4988-a3ba-845f9c69b1a5">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/405b52d2-4372-4a9c-b9cc-839b55aeace4">
+<img style="width: 250px" src="https://github.com/user-attachments/assets/8234bf35-619c-44c9-bb17-defa0156ac04">
 
 
 ## Demo Video
