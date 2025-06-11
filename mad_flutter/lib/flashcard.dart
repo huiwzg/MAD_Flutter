@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mad_flutter/detailed_word_information.dart';
 
 class FlashcardEditWidget extends StatelessWidget {
   final TextEditingController controller1;
@@ -93,6 +94,17 @@ class FlashcardWidget extends StatelessWidget {
               ElevatedButton(
                 onPressed: onSelfEvalIncorrect,
                 child: const Text('Incorrect'),
+              ),
+              SizedBox(width: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push (
+                    MaterialPageRoute (
+                      builder: (context) => DetailedWordPage(word: frontText),
+                    ),
+                  );
+                },
+                child: const Text('Get word information'),
               ),
             ]
           ],
