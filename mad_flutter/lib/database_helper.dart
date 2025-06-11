@@ -54,16 +54,6 @@ class DatabaseHelper {
     ''');
   }
 
-  // Future<int> insertItem(String name) async {
-  //   final db = await database;
-  //   return await db.insert('sets', {'name': name});
-  // }
-
-  // Future<List<Map<String, dynamic>>> getAllSets() async {
-  //   final db = await database;
-  //   return await db.query('sets');
-  // }
-
   Future<List<Map<String, String>>> getSummary() async {
     final db = await database;
     final result = await db.query('sets', columns: ['id', 'name']);
@@ -117,7 +107,6 @@ class DatabaseHelper {
     final db = await database;
 
     final result = await db.query('sets', columns: ['id', 'name'], orderBy: 'lastAccessed DESC', limit: limit);
-    // cast <String, Object> maps to <String, String>
     return result
       .map((map) => map.map((key, value) => MapEntry(key, value?.toString() ?? '')))
       .toList();

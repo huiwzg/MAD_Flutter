@@ -47,13 +47,6 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Widget> _pages = [];
 
-  // void loadPreferences() async {
-  //   SharedPreferences prefsInst = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     prefs["show-term-first"] = prefsInst.getBool('show-term-first') ?? true;
-  //   });
-  // }
-
   @override
   void initState() {
     _pages = [

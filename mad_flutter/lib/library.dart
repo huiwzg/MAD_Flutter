@@ -57,7 +57,6 @@ class LibraryPageState extends State<LibraryPage> {
           ),
         ]
       ),
-      // body: const Center(child: Text('TODO: Library Page')),
       body: Column(
         children: [
           Expanded(

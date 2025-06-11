@@ -74,7 +74,6 @@ class _StudyPageState extends State<StudyPage> {
 
   void selfEvalIncorrect() {
     setState(() {
-      // flashcardFields!.removeRange(currentIndex, currentIndex+1);
       nextCard();
     });
   }
@@ -144,10 +143,7 @@ class _StudyPageState extends State<StudyPage> {
                 DatabaseHelper().deleteSet(widget.id).then((_) {
                   Navigator.pop(context); // Close the Study page after deletion
                 });
-              } else if (value == 'settings') {
-                // Handle settings action
-                
-              }
+              } else if (value == 'settings') {}
             })
           ],
         ),

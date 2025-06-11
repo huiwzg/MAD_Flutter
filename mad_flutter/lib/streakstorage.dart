@@ -12,11 +12,6 @@ class StreakStorage {
     return false;
   }
 
-  // calling update(false) will check if the streak is stale (user was not 
-  //  active yesterday) and reset it if necessary, but will not increment the 
-  //  streak for today.
-  // calling update(true) does the same except will increment the streak for
-  //  today (if the streak is not stale)
   static Future<void> update(bool activeToday) async {
     final lastActivity = await getLastDate();
     final currentStreak = await getStreak();
