@@ -3,6 +3,7 @@ import 'package:mad_flutter/auth_gate.dart';
 import 'package:mad_flutter/create.dart';
 import 'package:mad_flutter/library.dart';
 import 'package:mad_flutter/home.dart';
+import 'package:mad_flutter/theme/theme.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flashcards',
       home: AuthGate(),
+      themeMode: ThemeMode.system,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
     );
   }
 }
