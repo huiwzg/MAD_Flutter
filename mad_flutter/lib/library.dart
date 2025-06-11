@@ -21,17 +21,15 @@ class LibraryPageState extends State<LibraryPage> {
     getStudySetSummary();
   }
 
-  Future<void> getStudySetSummary() async {
-    DatabaseHelper().getSummary().then((value) {
-      setState(() {
-        studySetTitles = value.map((e) => {'id' : e['id'].toString(), 'name' : e['name'].toString()}).toList();
-      });
+  void getStudySetSummary() async {
+    final _tmp_studySetTitles = await DatabaseHelper().getSummary();
+    setState(() {
+      studySetTitles = _tmp_studySetTitles;
     });
-    
   }
 
-  void launchStudySet(String id) {
-    Navigator.push(
+  static Future<void> launchStudySet(context, String id) {
+    return Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => StudyPage(
@@ -42,12 +40,8 @@ class LibraryPageState extends State<LibraryPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Failed to load study set')),
       );
-    }).then((_){
-      getStudySetSummary();
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +75,7 @@ class LibraryPageState extends State<LibraryPage> {
                   child: ListTile(
                     title: Text(studySetTitles[index]['name']!),
                     onTap: () {
-                      launchStudySet(studySetTitles[index]['id']!);
+                      launchStudySet(context, studySetTitles[index]['id']!);
                     },
                   )
                 );

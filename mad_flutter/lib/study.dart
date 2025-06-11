@@ -6,6 +6,7 @@ import 'package:mad_flutter/database_helper.dart';
 import 'package:mad_flutter/flashcard.dart';
 
 import 'package:logger/logger.dart';
+import 'package:mad_flutter/streakstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StudyPage extends StatefulWidget {
@@ -100,6 +101,7 @@ class _StudyPageState extends State<StudyPage> {
       return const Center(child: CircularProgressIndicator());
     } else {
       if (flashcardFields == null || flashcardFields!.isEmpty) {
+        StreakStorage.update(true);
         return Scaffold(
           appBar: AppBar(
             title: Text((title == null) ? "Study set" : title!),
