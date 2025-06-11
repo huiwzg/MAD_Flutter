@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mad_flutter/detailed_word_information.dart';
+import 'package:mad_flutter/theme/custom_themes/AppColors.dart';
 
 class FlashcardEditWidget extends StatelessWidget {
   final TextEditingController controller1;
@@ -65,7 +66,7 @@ class FlashcardWidget extends StatelessWidget {
             width: 300,
             height: 200,
             decoration: BoxDecoration(
-              color: isDark ? Colors.grey[850] : Colors.white, // fondo adaptable
+              color: isDark ? AppColors.dark_grey : AppColors.white,
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
