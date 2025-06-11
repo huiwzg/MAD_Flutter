@@ -82,10 +82,10 @@ class FlashcardWidget extends StatelessWidget {
           ),
         ),
         SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (isFlipped) ...[
+        if (isFlipped) ...[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               ElevatedButton(
                 onPressed: onSelfEvalCorrect,
                 child: const Text('Correct'),
@@ -95,20 +95,19 @@ class FlashcardWidget extends StatelessWidget {
                 onPressed: onSelfEvalIncorrect,
                 child: const Text('Incorrect'),
               ),
-              SizedBox(width: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push (
-                    MaterialPageRoute (
-                      builder: (context) => DetailedWordPage(word: frontText),
-                    ),
-                  );
-                },
-                child: const Text('Get word information'),
-              ),
             ]
-          ],
-        ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push (
+                MaterialPageRoute (
+                  builder: (context) => DetailedWordPage(word: frontText),
+                ),
+              );
+            },
+            child: Text('More info about \'$frontText\''),
+          ),
+        ],
       ]
     );
   }

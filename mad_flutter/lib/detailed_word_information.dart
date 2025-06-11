@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mad_flutter/detailed_word_information.dart';
 import 'package:mad_flutter/word_information.dart';
 
 class DetailedWordPage extends StatefulWidget {
