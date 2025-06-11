@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mad_flutter/create.dart';
 import 'package:mad_flutter/library.dart';
 import 'package:mad_flutter/home.dart';
+import 'package:mad_flutter/theme/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +17,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       home: MainScreen(),
+      themeMode: ThemeMode.system,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
     );
   }
 }
