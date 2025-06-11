@@ -131,10 +131,6 @@ class _StudyPageState extends State<StudyPage> {
                 value: 'delete',
                 child: Text('Delete'),
               ),
-              const PopupMenuItem(
-                value: 'settings',
-                child: Text('Settings'),
-              ),
             ], onSelected: (value) {
               if (value == 'edit') {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => CreatePage(id: widget.id))).then((_) {
